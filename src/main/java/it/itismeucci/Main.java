@@ -11,20 +11,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws UnknownHostException, IOException {
         System.out.println("Client startato");
-
-        Scanner sc = new Scanner(System.in);
-        String stringa = sc.nextLine();
-
-        Socket mySocket = new Socket("localhost", 5637);
+        Socket mySocket = new Socket("10.22.9.16", 4000);
         System.out.println("Il client si è collegato");
-
+        Scanner sc = new Scanner(System.in);
+        String stringRed = "";
         BufferedReader in = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         DataOutputStream out = new DataOutputStream(mySocket.getOutputStream());
 
-        out.writeBytes(stringa + '\n');
-        String stringaRicevuta = in.readLine();
-
-        System.out.println(stringaRicevuta);
+        do {
+            System.out.println("Inserisci stringa: ");
+            String outputString = sc.nextLine();
+            out.writeBytes(outputString + "\n");
+            stringRed = in.readLine();
+            System.out.println("Stringa ricevuta: " + stringRed);
+        } while (!stringRed.equals("!"));
 
         mySocket.close();
 
