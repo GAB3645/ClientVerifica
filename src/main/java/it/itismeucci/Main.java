@@ -22,10 +22,17 @@ public class Main {
         do {
             System.out.println("Inserisci stringa: ");
             String outputString = sc.nextLine();
+            if (outputString.equals("!")) {
+                System.out.println("Disconnessione client");
+                break;
+            }
+            System.out.println("\n1)Trasformare maiuscolo\n2)Trasformare maiuscolo\n3)Ribaltare\n4)Contare caratteri\nINSERISCI MODALITA': ");
+            String outputOperazione = sc.nextLine();
             out.writeBytes(outputString + "\n");
+            out.writeBytes(outputOperazione + "\n");
             stringRed = in.readLine();
             System.out.println("Stringa ricevuta: " + stringRed);
-        } while (!stringRed.equals("!"));
+        } while (true);
 
         mySocket.close();
 
