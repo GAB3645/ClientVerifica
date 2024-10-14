@@ -11,7 +11,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws UnknownHostException, IOException {
         System.out.println("Client startato");
-        Socket mySocket = new Socket("10.22.9.16", 4000);
+        
+        Socket mySocket = new Socket("localhost", 5672);
         System.out.println("Il client si è collegato");
         Scanner sc = new Scanner(System.in);
         String stringRed = "";
