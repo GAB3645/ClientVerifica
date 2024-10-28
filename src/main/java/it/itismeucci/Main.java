@@ -11,27 +11,49 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws UnknownHostException, IOException {
         System.out.println("Client startato");
-        
-        Socket mySocket = new Socket("localhost", 5672);
-        System.out.println("Il client si è collegato");
+
+        Socket mySocket = new Socket("localhost", 3000);
         Scanner sc = new Scanner(System.in);
         String stringRed = "";
         BufferedReader in = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
         DataOutputStream out = new DataOutputStream(mySocket.getOutputStream());
 
+
+        System.out.println("Connessione effettuata. Digita ESCI per uscire.");
+        System.out.println("Inserisci la nota da memorizzare o digita LISTA per visualizzare le note salvate.  ");
+
+
         do {
-            System.out.println("Inserisci stringa: ");
-            String outputString = sc.nextLine();
-            if (outputString.equals("!")) {
-                System.out.println("Disconnessione client");
+            System.out.println("Inserisci una nota: ");
+            String miaStringa = sc.nextLine();
+
+            if (miaStringa.equals("ESCI")) {
+                System.out.println("Disconnessione Effettuata");
+                out.writeBytes("!" + "\n");
                 break;
+            } else if (miaStringa.equals("LISTA")) {
+                System.out.println("Ecco la lista:");
+                out.writeBytes("?" + "\n");
+                stringRed = in.readLine();
+                System.out.println(stringRed);
+                do {
+                    stringRed = in.readLine();
+                    if (!stringRed.equals("@")) {
+                        System.out.println(stringRed);
+                    } else {
+                        break;
+                    }
+
+                } while (!stringRed.equals("@"));
+            } else {
+                out.writeBytes(miaStringa + "\n");
+                stringRed = in.readLine();
+                if (stringRed.equals("OK")) {
+                    System.out.println("NOTA SALVATA");
+                    
+                }
             }
-            System.out.println("\n1)Trasformare maiuscolo\n2)Trasformare maiuscolo\n3)Ribaltare\n4)Contare caratteri\nINSERISCI MODALITA': ");
-            String outputOperazione = sc.nextLine();
-            out.writeBytes(outputString + "\n");
-            out.writeBytes(outputOperazione + "\n");
-            stringRed = in.readLine();
-            System.out.println("Stringa ricevuta: " + stringRed);
+
         } while (true);
 
         mySocket.close();
